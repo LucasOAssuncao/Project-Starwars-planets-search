@@ -30,6 +30,7 @@ export default function FilterBar() {
     setData(FilterComparer);
     const selectFilters = options.filter((e) => e !== tagFilter);
     setOptions(selectFilters);
+    setTagFilter('population');
   };
 
   return (

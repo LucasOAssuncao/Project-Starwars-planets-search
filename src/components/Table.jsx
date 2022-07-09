@@ -7,7 +7,6 @@ function Table() {
   const { data, filter, filteredByName, setfilteredByName } = useContext(DataContext);
 
   useEffect(() => {
-    console.log(filter);
     const { name } = filter;
     const filterPlanetsName = data.filter((e) => (
       e.name.includes(name)
