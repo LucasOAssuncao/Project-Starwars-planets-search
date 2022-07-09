@@ -13,7 +13,7 @@ function DataProvider({ children }) {
   };
 
   const [filter, setFilter] = useState(Filter);
-  const [options, setOptions] = useState(['orbital_period', 'population', 'diameter',
+  const [options, setOptions] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
 
   const doFetch = async () => {

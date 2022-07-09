@@ -63,6 +63,7 @@ export default function FilterBar() {
           name="numberFilter"
           id="numberFilter"
           type="text"
+          value={ numberFilter }
           data-testid="value-filter"
           onChange={ ({ target: { value } }) => setNumberFilter(value) }
         />
