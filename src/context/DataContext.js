@@ -13,6 +13,8 @@ function DataProvider({ children }) {
   };
 
   const [filter, setFilter] = useState(Filter);
+  const [options, setOptions] = useState(['orbital_period', 'population', 'diameter',
+    'rotation_period', 'surface_water']);
 
   const doFetch = async () => {
     const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -31,6 +33,8 @@ function DataProvider({ children }) {
     setfilteredByName,
     filter,
     setFilter,
+    options,
+    setOptions,
   };
 
   return (
