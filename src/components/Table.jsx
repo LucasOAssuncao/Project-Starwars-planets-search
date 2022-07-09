@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DataContext } from '../context/DataContext';
+import Header from './Header';
 
 function Table() {
-  const { data } = useContext(DataContext);
+  const { data, filter, filteredByName, setfilteredByName } = useContext(DataContext);
+
+  useEffect(() => {
+    const { name } = filter;
+    const filterPlanetsName = data.filter((e) => (
+      e.name.includes(name)
+    ));
+    setfilteredByName(filterPlanetsName);
+  }, [filter, data, setfilteredByName]);
 
   return (
     data.length && (
       <div className="Table">
+        <Header />
         <table>
           <thead>
             <tr>
@@ -16,7 +26,7 @@ function Table() {
             </tr>
           </thead>
           <tbody>
-            {data.map((planet, index) => (
+            {filteredByName.map((planet, index) => (
               <tr key={ index }>
                 {Object.values(planet).map((e, i) => <td key={ i }>{e}</td>)}
               </tr>
