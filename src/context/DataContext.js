@@ -9,6 +9,7 @@ function DataProvider({ children }) {
 
   const Filter = {
     name: '',
+    FiltersValues: [],
   };
 
   const [filter, setFilter] = useState(Filter);

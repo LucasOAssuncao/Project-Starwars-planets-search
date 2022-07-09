@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { DataContext } from '../context/DataContext';
+import FilterBar from './FilterBar';
 import Header from './Header';
 
 function Table() {
@@ -17,6 +18,7 @@ function Table() {
     data.length && (
       <div className="Table">
         <Header />
+        <FilterBar />
         <table>
           <thead>
             <tr>
