@@ -8,8 +8,11 @@ export default function FilterBar() {
     setData,
     options,
     setOptions,
-    setUsedFilters,
     allPlanets,
+    sort,
+    setSort,
+    column,
+    setColumn,
   } = useContext(DataContext);
 
   const [compareFilter, setCompareFilter] = useState('maior que');
@@ -27,12 +30,6 @@ export default function FilterBar() {
     const selectFilters = options.filter((e) => e !== tagFilter);
     setOptions(selectFilters);
     setTagFilter('population');
-    setUsedFilters((prev) => ({
-      filtersUsed: [
-        ...prev.filtersUsed,
-        { tagFilter, compareFilter, numberFilter },
-      ],
-    }));
   };
 
   const applyFilter = useCallback(() => {
@@ -44,13 +41,14 @@ export default function FilterBar() {
         if (filters.compareFilter === 'menor que') {
           return Number(e[filters.tagFilter]) < Number(filters.numberFilter);
         }
-        if (filters.compareFilter === 'igual a') {
-          return Number(e[filters.tagFilter]) === Number(filters.numberFilter);
-        }
-        return null;
+        return Number(e[filters.tagFilter]) === Number(filters.numberFilter);
       }));
     setData(filterNumber);
   }, [filter.FiltersValues, allPlanets, setData]);
+
+  useEffect(() => {
+    applyFilter();
+  }, [applyFilter]);
 
   const removeFilter = ({ target: { value } }) => {
     setOptions([...options, value]);
@@ -63,13 +61,19 @@ export default function FilterBar() {
     });
   };
 
-  useEffect(() => {
-    applyFilter();
-  }, [applyFilter]);
-
   const removeAllFilters = () => {
     setFilter({ ...filter, FiltersValues: [] });
-    setUsedFilters([]);
+  };
+
+  const handleSortClick = () => {
+    setFilter({
+      ...filter,
+      order: {
+        column,
+        sort,
+      },
+
+    });
   };
 
   return (
@@ -141,6 +145,55 @@ export default function FilterBar() {
           onClick={ removeAllFilters }
         >
           Remover Todos os Filtros
+        </button>
+      </div>
+      <div>
+        <label htmlFor="order">
+          <select
+            name="order"
+            id="order"
+            data-testid="column-sort"
+            onChange={ ({ target }) => setColumn(target.value) }
+          >
+            <option value="rotation_period">rotation_period</option>
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="asc">
+          Ascendente
+          <input
+            type="radio"
+            name="radio-order"
+            id="asc"
+            value="ASC"
+            // checked={ sort === 'ASC' }
+            data-testid="column-sort-input-asc"
+            onChange={ ({ target }) => { setSort(target.value); } }
+          />
+        </label>
+        <label htmlFor="desc">
+          Descendente
+          <input
+            type="radio"
+            name="radio-order"
+            id="desc"
+            value="DESC"
+            // checked={ sort === 'DESC' }
+            data-testid="column-sort-input-desc"
+            onChange={ ({ target }) => { setSort(target.value); } }
+          />
+        </label>
+        <button
+          name="Filtrar"
+          id="Filtrar"
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => handleSortClick() }
+        >
+          Ordenar
         </button>
       </div>
     </div>

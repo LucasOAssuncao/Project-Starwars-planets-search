@@ -10,17 +10,18 @@ function DataProvider({ children }) {
   const Filter = {
     name: '',
     FiltersValues: [],
-  };
-
-  const usedFilter = {
-    filtersUsed: [],
+    order: {
+      column: 'population',
+      sort: '',
+    },
   };
 
   const [filter, setFilter] = useState(Filter);
   const [options, setOptions] = useState(['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water']);
   const [allPlanets, setAllPlanets] = useState([]);
-  const [usedFilters, setUsedFilters] = useState(usedFilter);
+  const [sort, setSort] = useState('ASC');
+  const [column, setColumn] = useState('name');
 
   const doFetch = async () => {
     const res = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -42,10 +43,12 @@ function DataProvider({ children }) {
     setFilter,
     options,
     setOptions,
-    setUsedFilters,
-    usedFilters,
     allPlanets,
     setAllPlanets,
+    sort,
+    setSort,
+    column,
+    setColumn,
   };
 
   return (
