@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { DataContext } from '../context/DataContext';
 
 export default function FilterBar() {
   const {
     filter,
     setFilter,
-    filteredByName,
     setData,
     options,
     setOptions,
-    usedFilters,
     setUsedFilters,
+    allPlanets,
   } = useContext(DataContext);
 
   const [compareFilter, setCompareFilter] = useState('maior que');
@@ -25,20 +24,6 @@ export default function FilterBar() {
         { compareFilter, numberFilter, tagFilter },
       ],
     }));
-
-    const FilterComparer = filteredByName.filter((e) => {
-      if (compareFilter === 'maior que') {
-        return Number(e[tagFilter]) > Number(numberFilter);
-      }
-      if (compareFilter === 'menor que') {
-        return Number(e[tagFilter]) < Number(numberFilter);
-      }
-      if (compareFilter === 'igual a') {
-        return Number(e[tagFilter]) === Number(numberFilter);
-      }
-      return null;
-    });
-    setData(FilterComparer);
     const selectFilters = options.filter((e) => e !== tagFilter);
     setOptions(selectFilters);
     setTagFilter('population');
@@ -48,6 +33,43 @@ export default function FilterBar() {
         { tagFilter, compareFilter, numberFilter },
       ],
     }));
+  };
+
+  const applyFilter = useCallback(() => {
+    const filterNumber = allPlanets
+      .filter((e) => filter.FiltersValues.every((filters) => {
+        if (filters.compareFilter === 'maior que') {
+          return Number(e[filters.tagFilter]) > Number(filters.numberFilter);
+        }
+        if (filters.compareFilter === 'menor que') {
+          return Number(e[filters.tagFilter]) < Number(filters.numberFilter);
+        }
+        if (filters.compareFilter === 'igual a') {
+          return Number(e[filters.tagFilter]) === Number(filters.numberFilter);
+        }
+        return null;
+      }));
+    setData(filterNumber);
+  }, [filter.FiltersValues, allPlanets, setData]);
+
+  const removeFilter = ({ target: { value } }) => {
+    setOptions([...options, value]);
+    const refresh = filter.FiltersValues.filter(
+      (filters) => filters.tagFilter !== value,
+    );
+    setFilter({
+      ...filter,
+      FiltersValues: refresh,
+    });
+  };
+
+  useEffect(() => {
+    applyFilter();
+  }, [applyFilter]);
+
+  const removeAllFilters = () => {
+    setFilter({ ...filter, FiltersValues: [] });
+    setUsedFilters([]);
   };
 
   return (
@@ -61,7 +83,9 @@ export default function FilterBar() {
             onChange={ ({ target: { value } }) => setTagFilter(value) }
           >
             {options.map((e) => (
-              <option value={ e } key={ e }>{e}</option>
+              <option value={ e } key={ e }>
+                {e}
+              </option>
             ))}
           </select>
         </label>
@@ -92,28 +116,29 @@ export default function FilterBar() {
         </button>
       </div>
       <div>
-        {usedFilters.filtersUsed && usedFilters.filtersUsed.map(
-          ({
-            compareFilter: compare,
-            numberFilter: number,
-            tagFilter: tag,
-          }) => (
-            <p data-testid="filter" key="e">
-              {`${tag} ${compare} ${number}`}
-              <button
-                data-testid="button-remove-filters"
-                type="button"
-              >
-                Delete
-
-              </button>
-            </p>
-          ),
-        )}
+        {filter.FiltersValues
+          && filter.FiltersValues.map(
+            ({
+              compareFilter: compare,
+              numberFilter: number,
+              tagFilter: tag,
+            }, index) => (
+              <p data-testid="filter" key={ index }>
+                {`${tag} ${compare} ${number}`}
+                <button
+                  value={ tag }
+                  type="button"
+                  onClick={ removeFilter }
+                >
+                  Delete
+                </button>
+              </p>
+            ),
+          )}
         <button
           type="button"
           data-testid="button-remove-filters"
-          //   onClick={ removeAllFilters }
+          onClick={ removeAllFilters }
         >
           Remover Todos os Filtros
         </button>
