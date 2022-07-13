@@ -35,51 +35,51 @@ function Table() {
 
   useEffect(() => {
     const { name } = filter;
-
     const filterPlanetsName = data.filter((e) => e.name.includes(name));
 
     if (sort === 'ASC') {
       setfilteredByName(filterPlanetsName.sort(SortCompared));
     } else {
-      // setfilteredByName(filterPlanetsName);
       setfilteredByName(data.sort(SortCompared));
     }
   }, [filter, data, setfilteredByName, sort]);
 
   return (
     data.length && (
-      <div className="Table">
+      <div>
         <Header />
         <FilterBar />
-        <table>
-          <thead>
-            <tr>
-              {Object.keys(data[0]).map((e) => (
-                <th key={ e }>{e}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filteredByName.map((item, index) => (
-              <tr key={ index }>
-                <td>{item.name}</td>
-                <td data-testid="planet-name">{item.name}</td>
-                <td>{item.rotation_period}</td>
-                <td>{item.orbital_period}</td>
-                <td>{item.diameter}</td>
-                <td>{item.climate}</td>
-                <td>{item.gravity}</td>
-                <td>{item.terrain}</td>
-                <td>{item.surface_water}</td>
-                <td>{item.population}</td>
-                <td>{item.films}</td>
-                <td>{item.created}</td>
-                <td>{item.edited}</td>
-                <td>{item.url}</td>
+        <div className="overflow-x-auto w-full">
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                {Object.keys(data[0]).map((e) => (
+                  <th key={ e }>{e}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredByName.map((item, index) => (
+                <tr key={ index }>
+                  <td>{item.name}</td>
+                  <td data-testid="planet-name">{item.name}</td>
+                  <td>{item.rotation_period}</td>
+                  <td>{item.orbital_period}</td>
+                  <td>{item.diameter}</td>
+                  <td>{item.climate}</td>
+                  <td>{item.gravity}</td>
+                  <td>{item.terrain}</td>
+                  <td>{item.surface_water}</td>
+                  <td>{item.population}</td>
+                  <td>{item.films}</td>
+                  <td>{item.created}</td>
+                  <td>{item.edited}</td>
+                  <td>{item.url}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     )
   );

@@ -5,7 +5,7 @@ import DataProvider from './context/DataContext';
 
 function App() {
   return (
-    <div>
+    <div className="all-father">
       <DataProvider>
         <Table />
       </DataProvider>

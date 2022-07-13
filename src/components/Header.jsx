@@ -12,11 +12,12 @@ export default function Header() {
   };
 
   return (
-    <header>
+    <header className="flex justify-center p-[10px] bg-[black] text-[black]">
       <div>
         <input
+          className="input input-bordered w-full max-w-xs"
           data-testid="name-filter"
-          placeholder="Digite um nome"
+          placeholder="Procure pelo nome do planeta"
           onChange={ ({ target }) => handleChange(target.value) }
           type="text"
         />

@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+
+body{
+  background-image: url('./img/5430309.jpg');
+  /* background-color: rgb(41, 41, 41); */
+  /* background-repeat: no-repeat; */
+  background-size: cover;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -39,3 +47,13 @@
     transform: rotate(360deg);
   }
 }
+
+.table-father{
+  margin-top: 2%;
+  color: white;
+  background: rgba(255, 255, 255, 0.161);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.451);
+}
+
